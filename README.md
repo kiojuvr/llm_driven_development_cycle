@@ -1,5 +1,8 @@
 # LLM駆動開発サイクル docs テンプレート
 
+Working template / early public draft.
+This repository documents a tested core workflow plus surrounding process patterns that are still being normalized.
+
 ## このリポジトリの目的
 
 このリポジトリは、LLM駆動開発における開発運用モデルを docs テンプレートとして整備するための起点です。
@@ -7,6 +10,17 @@
 運用上の正本は `docs/development_process/` 配下に置きます。ルートや `references/` 配下の文書は、起点メモ、原典ログ、履歴資料として扱います。
 
 ここで扱う中心テーマは、コード生成そのものではなく、LLM が高速に変更案を出せる状況で、どの変更を開き、どの変更を開かないかをどう統治するかです。
+
+## 使い方
+
+まず [docs/development_process/README.md](docs/development_process/README.md) から読み始めてください。
+
+このリポジトリを使うときの基本は次のとおりです。
+
+- 実証済みコアとして `audit -> bounded lane -> closeout -> steady state` を参照する
+- 全体サイクルは `docs/development_process/` 配下の正本 docs として読む
+- 実際に書くときは `templates/` を使い、必要に応じて `examples/` を横に置く
+- 起点メモや原文は `references/` で参照する
 
 従来の開発手法で言えば、次の要素に近いものを含みます。
 
@@ -35,6 +49,20 @@
 - 変更の影響範囲を bounded lane として限定できる
 - closeout によって変更の帰結と未解決事項を明示できる
 - steady state を「根拠のある未着手状態」として維持できる
+
+## 運用成熟度に関する注記
+
+このリポジトリに書かれている内容は、すべてが同じ成熟度にあるわけではありません。
+
+現時点で実運用として最も検証されているのは、`audit -> bounded lane -> closeout -> steady state` のサイクルです。これは実際に 1 か月以上運用されており、少なくとも drift 防止には有効でした。
+
+一方で、`probe`、`learning log`、`friction log` を含む全体サイクルは、その実運用知見をもとに正規化した docs テンプレートです。方向性としては妥当でも、現時点では「十分に安定した確立手順」ではなく、「運用を明示化し、再利用可能にするための案」を含みます。
+
+したがって、このリポジトリは完成済みの固定プロセス集というより、実証済みコアの周囲を文書化しながら整備している運用テンプレートとして読むのが正確です。
+
+実運用では、`docs/` 直下に多くの文書が継続的に生成され、それらを `INDEX.md` で時系列に並べ、各文書にワンライン説明を付ける運用も行っていました。これはコアサイクルそのものではありませんが、evidence の探索性と作業再開性を高め、drift 防止に寄与していた可能性があります。
+
+ただし、このリポジトリではまだそれを必須要件としては扱わず、実運用で観測された補助的な実務パターンとして位置づけます。
 
 ## このリポジトリで先に作るもの
 
