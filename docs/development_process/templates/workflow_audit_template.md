@@ -1,5 +1,7 @@
 # Workflow Audit
 
+記入方針: 最終設計ではなく、進めるべきか止めるべきかを判断する監査として書きます。
+
 ## Date
 
 ## Purpose
@@ -8,15 +10,21 @@
 
 ## Audit question
 
+Yes / No または allowed outcome を選べる問いにする。
+
 ## Scope
 
 ## Primary inputs
 
 ## Live paths to inspect
 
+少なくとも 1 つは実コードの流れを書く。
+
 ## Core checks
 
 ## Evidence entries
+
+確認した事実を箇条書きで残す。
 
 ## Allowed outcomes
 
@@ -26,6 +34,10 @@
 
 ## Non-goals
 
+この audit でやらない設計や実装を書く。
+
 ## Completion criteria
 
 ## Final rule
+
+最後に選んだ outcome と、その根拠を 1-3 行で書く。

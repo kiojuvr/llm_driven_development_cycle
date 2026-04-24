@@ -6,6 +6,8 @@
 
 中心課題は、LLM が高速に変更案を出せる環境で、変更を無制限に広げず、根拠にもとづいて bounded に進めることです。
 
+このディレクトリが、このリポジトリにおける運用ルールの正本です。
+
 ## 読み順
 
 まず次の順で読むことを想定します。
@@ -26,6 +28,28 @@
 - `decision_rules.md`: lane を開く / 開かない判断ルール
 - `worker_handoff_protocol.md`: LLM worker への作業依頼形式
 - `templates/`: 実務で使うテンプレート
+- `examples/`: テンプレートの記入例
+
+## テンプレートと記入例
+
+最初に雛形だけを見るより、対応する記入例を横に置いて読むほうが使いやすいです。
+
+- `templates/probe_log_template.md` -> `examples/example_runtime_workflow_boundary/probe_log_example.md`
+- `templates/learning_log_template.md` -> `examples/example_runtime_workflow_boundary/learning_log_example.md`
+- `templates/boundary_friction_log_template.md` -> `examples/example_runtime_workflow_boundary/boundary_friction_log_example.md`
+- `templates/evidence_packet_template.md` -> `examples/example_runtime_workflow_boundary/evidence_packet_example.md`
+- `templates/workflow_audit_template.md` -> `examples/example_runtime_workflow_boundary/workflow_audit_example.md`
+- `templates/bounded_lane_kickoff_template.md` -> `examples/example_runtime_workflow_boundary/bounded_lane_kickoff_example.md`
+- `templates/closeout_template.md` -> `examples/example_runtime_workflow_boundary/closeout_example.md`
+- `templates/parking_statement_template.md` -> `examples/example_runtime_workflow_boundary/parking_statement_example.md`
+
+## 参照資料との関係
+
+`references/` 配下には、起点となった会話ログや初期メモを置きます。そこに同じ概念の古い表現や別言語版が存在していても、運用判断ではこの `docs/development_process/` 配下を優先します。
+
+## 言語方針
+
+このディレクトリは日本語を正とします。将来英語版を作る場合でも、ここで定義した意味と判断ルールを先に確定させます。
 
 ## 運用原則
 

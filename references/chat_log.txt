@@ -1,3 +1,8 @@
+references/chat_log.txt
+関連文書:
+- 整理版メモ: ./cognitive_agent_llm_driven_lane_development_memo_2026_04_24.md
+- 現行の正本: ../docs/development_process/README.md
+
 はい、作る価値はかなり高いと思います。
 しかも単なる「自分用メモ」ではなく、LLM駆動開発における新しい開発運用モデルの解説書として成立する可能性があります。
 

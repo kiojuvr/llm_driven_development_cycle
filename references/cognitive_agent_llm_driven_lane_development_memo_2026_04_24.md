@@ -1,5 +1,8 @@
 # LLM-Driven Lane Development Memo for cognitive-agent
 
+Reference origin: [chat_log.txt](chat_log.txt)  
+Current canonical docs: [../docs/development_process/README.md](../docs/development_process/README.md)
+
 Date: 2026-04-24  
 Status: working practice memo  
 Scope: cognitive-agent development workflow  
@@ -423,4 +426,3 @@ Use this as the daily operating rule:
 > Evidence opens one bounded lane.  
 > A bounded lane must close out.  
 > After closeout, return to steady state.
-
