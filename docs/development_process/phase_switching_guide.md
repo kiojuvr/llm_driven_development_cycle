@@ -1,0 +1,81 @@
+# フェーズ切り替えガイド
+
+## 目的
+
+この文書は、いま必要なのが probe なのか、audit なのか、bounded lane なのかを判定する基準をまとめたものです。
+
+## 序盤
+
+序盤は、構造理解と live path の把握を優先します。
+
+この段階で主に行うもの:
+
+- probe
+- learning log
+- friction log
+
+序盤の特徴:
+
+- ownership がまだ見えていない
+- 用語が安定していない
+- 問題が「不快感」なのか「実害」なのか分離できていない
+
+序盤で避けること:
+
+- 広い再設計
+- reusable contract の導入
+- aesthetic なリファクタ
+
+## 中盤
+
+中盤は、観察から判断へ移る段階です。
+
+この段階で主に行うもの:
+
+- workflow audit
+- evidence packet
+- bounded lane kickoff
+
+中盤へ移る目安:
+
+- 同じ摩擦が複数回観察されている
+- blocked consumer が具体化している
+- docs / code / tests の contract drift が見えている
+- ownership conflict が live path で確認できる
+
+## 終盤
+
+終盤は、bounded lane を閉じて steady state に戻す段階です。
+
+この段階で主に行うもの:
+
+- 実装の収束
+- closeout
+- parking
+- reopen condition の明記
+
+終盤で確認すること:
+
+- 変更範囲が lane の境界を超えていないか
+- ownership が明文化されているか
+- deferred 項目が future work ではなく parking として扱われているか
+
+## 簡易判定
+
+次の問いで判定します。
+
+### まだ構造理解が不足しているか
+
+不足しているなら `probe` に留まります。
+
+### 具体的な blocked consumer があるか
+
+あるなら `audit` または `bounded lane` を検討します。
+
+### 問題は reusable な意味や ownership に触れているか
+
+触れているなら `audit` を先に行います。
+
+### 単なる局所修正で正直に閉じられるか
+
+閉じられるなら lane を開かずに対応します。
