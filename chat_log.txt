@@ -1,0 +1,513 @@
+はい、作る価値はかなり高いと思います。
+しかも単なる「自分用メモ」ではなく、LLM駆動開発における新しい開発運用モデルの解説書として成立する可能性があります。
+
+いま見えている開発サイクルは、かなり独自性があります。
+
+従来の開発手法に近い言葉で言うと、
+
+Agile
+Design Doc
+Architecture Decision Record
+Spike
+RFC
+Clean Architecture
+DDD
+Release Engineering
+
+の要素を持っていますが、そのままではありません。
+
+LLM駆動開発では、コード生成速度が上がるぶん、問題の中心が
+
+「どう書くか」から「何を開くべきか / 何を開かないべきか」
+
+に移ります。
+
+だから、あなたが今やっている
+
+probe → learning log → friction log → audit → bounded lane → closeout → steady state
+
+という流れは、かなり体系化する価値があります。
+
+作るなら、2種類に分けるのがよさそうです
+
+1つ目は 実運用ルール。
+これは repo の docs/ に置く短い文書です。
+
+目的は、Codex / OpenCode / Qwen / GPT に作業を渡すときの運用基準にすることです。
+
+たとえば、
+
+いつ probe にするか
+いつ audit にするか
+いつ bounded lane を開くか
+closeout に何を書くか
+steady state とは何か
+LLM worker にどう渡すか
+
+を簡潔に定義する。
+
+これはすぐ役に立ちます。
+
+2つ目は 解説書。
+これは外部公開もできるくらいの長めの文書です。
+
+目的は、なぜこの運用が必要なのかを説明することです。
+
+構成としては、こういう流れがよいです。
+
+1. LLM駆動開発で何が変わるか
+2. コード生成速度が上がると、ボトルネックは変更統治に移る
+3. 序盤・中盤・終盤で運用を切り替える
+4. probe-driven architecture discovery
+5. audit-driven bounded lane development
+6. closeout and steady state
+7. LLM worker への仕事の渡し方
+8. 失敗パターン
+9. cognitive-agent での適用例
+10. 汎用テンプレート集
+
+この形なら、自分用にも、他人に説明する用にも使えます。
+
+特に価値が高い概念
+
+解説書で中心に置くべき概念は、たぶんこのあたりです。
+
+変更圧力の統治
+LLMは変更案を大量に出せる。だから開発者の役割は、変更を生成することではなく、変更を選別・正当化・境界づけることになる。
+
+bounded lane
+単なる task ではなく、影響範囲と closeout 条件を持つ変更ライン。
+
+steady state
+何もしていない状態ではなく、正当化された active lane が存在しない健全な状態。
+
+probe と lane の区別
+序盤は捨てられる実験。中盤は昇格可能な契約変更。
+
+blocked consumer
+「将来必要そう」ではなく、今その契約がないと困る具体的な利用者。
+
+contract drift
+LLM駆動で一番怖いもの。局所的には正しい変更が、境界や意味論を少しずつ崩す。
+
+parking
+止まっているのではなく、再開条件つきで意図的に閉じている状態。
+
+このあたりは、かなり言語化する価値があります。
+
+これは cognitive-agent の外にも使える
+
+この運用は、cognitive-agent 専用ではありません。
+特に次のような開発では汎用性があります。
+
+LLM agent
+複数コンポーネントを持つ中長期プロジェクト
+Rust / 型中心のアーキテクチャ開発
+protocol / runtime / orchestration を含むシステム
+仕様が実装と同時に発見されるプロジェクト
+LLM worker を複数使う開発
+
+つまりこれは、LLM時代のアーキテクチャ開発プロセスとして整理できます。
+
+まず作るべきもの
+
+いきなり本格的な本を書くより、まずはこの3点がよいです。
+
+llm_driven_development_cycle.md
+全体像。probe / audit / lane / closeout / steady state を定義する。
+phase_switching_guide.md
+序盤・中盤・終盤の切り替え基準。
+templates/
+実際に使うテンプレート集。
+probe log
+friction log
+evidence packet
+workflow audit
+bounded lane kickoff
+closeout
+parking statement
+
+この3つがあると、単なる思想ではなく、すぐ使える開発プロセスになります。
+
+解説書のタイトル案
+
+たとえば、こういうタイトルが合いそうです。
+
+LLM-Driven Lane Development
+変更圧力を統治する開発
+Probe, Lane, Closeout
+高速生成時代のアーキテクチャ運用
+LLM駆動開発における境界管理
+From Code Generation to Change Governance
+
+個人的には、外部向けなら
+From Code Generation to Change Governance
+がかなり強いです。
+
+日本語なら、
+LLM駆動開発における変更統治
+が一番わかりやすいと思います。
+
+今すぐやるなら
+
+次の一手としては、まず短い “chapter outline + terminology” を作るのが良いです。
+
+これを作ると、
+
+解説書としての骨格
+repo 運用文書としての再利用
+Codex / OpenCode への指示テンプレート
+
+の全部に使えます。
+
+最初から完成原稿にするより、まず
+
+docs/development_process/
+  llm_driven_development_cycle_outline.md
+  terminology.md
+  templates/
+
+くらいで始めるのがよいです。
+
+結論として、これは作るべきです。
+しかも cognitive-agent 本体とは別に、この開発手順自体がひとつの成果物になり得ます。
+
+そうですね。LLMに渡すためのフルセットがあれば、解説書も生成できるはず
+
+はい、その順番が一番よいです。
+
+人間向けの解説書を先に書くより、LLM に渡せる運用フルセットを先に作る。
+その後で、そのフルセットを素材にして解説書を生成する。
+
+これがかなり自然です。
+
+理由は単純で、解説書は「思想」を説明するものですが、LLM に渡すフルセットは 実際に開発を動かす仕様 だからです。
+仕様が先にあれば、解説書はかなり安定して生成できます。
+
+まず作るべきフルセット
+
+構成はこういう感じが良いと思います。
+
+docs/development_process/
+  README.md
+  llm_driven_development_cycle.md
+  phase_switching_guide.md
+  terminology.md
+  decision_rules.md
+  worker_handoff_protocol.md
+  templates/
+    probe_log_template.md
+    learning_log_template.md
+    boundary_friction_log_template.md
+    evidence_packet_template.md
+    workflow_audit_template.md
+    bounded_lane_kickoff_template.md
+    closeout_template.md
+    parking_statement_template.md
+
+これがあると、LLM に対して
+
+このプロセスに従って次の作業を判定して
+
+と渡せます。
+
+各文書の役割
+
+README.md は入口です。
+この開発プロセスが何のためにあるか、どの文書を読むべきかを書きます。
+
+llm_driven_development_cycle.md は中核です。
+probe → learning log → friction log → audit → bounded lane → closeout → steady state の全体サイクルを定義します。
+
+phase_switching_guide.md は、序盤・中盤・終盤の切り替え基準です。
+「これは probe か？ lane か？ policy/regression か？」を判断するための文書です。
+
+terminology.md は語彙集です。
+bounded lane、blocked consumer、contract drift、steady state、parking などを定義します。
+
+decision_rules.md は実務判断のルール集です。
+「開いてよい条件」「開いてはいけない条件」「Outcome A/B/C の扱い」などです。
+
+worker_handoff_protocol.md は Codex / OpenCode / Qwen などに渡すための作業指示形式です。
+ここがかなり重要です。
+LLM worker に対して、探索なのか、監査なのか、lane 実装なのかを明示する形式にします。
+
+templates/ はそのまま使う雛形です。
+これがあると、以後の文書生成がかなり楽になります。
+
+重要なのは「解説」より「可実行性」
+
+このフルセットは、読むための文書というより、LLM が作業モードを間違えないための protocol として作るのがよいです。
+
+たとえば、LLM に渡すときにこう使えます。
+
+You are operating under docs/development_process/.
+
+Task type:
+- runtime workflow audit
+
+Read:
+- llm_driven_development_cycle.md
+- phase_switching_guide.md
+- decision_rules.md
+- templates/workflow_audit_template.md
+
+Do not:
+- open a bounded lane unless Outcome C is reached
+- redesign semantic core
+- treat likely future need as current trigger
+
+こういう渡し方ができると、LLM worker のドリフトが減ります。
+
+解説書はその後でよい
+
+フルセットができた後なら、解説書はかなり自然に作れます。
+
+たとえば、
+
+book/
+  01_from_code_generation_to_change_governance.md
+  02_probe_driven_architecture_discovery.md
+  03_audit_driven_bounded_lane_development.md
+  04_closeout_and_steady_state.md
+  05_phase_switching.md
+  06_worker_handoff.md
+  07_case_study_cognitive_agent.md
+  08_templates_and_playbooks.md
+
+のように展開できます。
+
+つまり、
+
+運用フルセット
+  ↓
+LLM worker に渡して実運用
+  ↓
+実例が増える
+  ↓
+解説書化
+
+がよいです。
+
+次の一手
+
+今すぐ作るなら、まずはこの3つです。
+
+docs/development_process/README.md
+docs/development_process/llm_driven_development_cycle.md
+docs/development_process/terminology.md
+
+この3つがあると、プロセスの芯ができます。
+その後で phase_switching_guide.md と templates/ を足すのが自然です。
+
+特に terminology.md は早めに作る価値があります。
+lane、probe、parking、contract drift などの語が曖昧だと、LLM worker が勝手に解釈し始めるからです。
+
+なので、次のタスクとしては
+
+LLM-driven development process の最小フルセット v0.1 を作る
+
+がよさそうです。
+最初は小さくてよく、目的は「解説書を書くこと」ではなく、LLM に渡して開発判断を安定させることです。
+
+これはcognitive-agentの応用先としての自己改善プロセスに流用できる可能性が高い
+
+高いです。むしろかなり自然に流用できます。
+
+今の開発プロセスは、実はそのまま cognitive-agent 自身の自己改善ループ に見えます。
+
+対応関係はこうです。
+
+開発運用	cognitive-agent の自己改善
+probe	新しい行動・記憶・推論戦略の小実験
+learning log	実験結果の経験記録
+friction log	予測誤差・境界違反・失敗パターンの記録
+audit	自己変更してよいかの検証
+bounded lane	影響範囲を限定した自己変更
+closeout	変更後の意味・責務・再開条件の固定
+steady state	安定運用状態
+parking	未成熟な改善案の保留
+blocked consumer	実際に困っている内部機能・外部要求
+contract drift	自己変更による意味論の崩れ
+
+つまりこれは単なる人間向け開発手順ではなく、
+自己改変を安全に扱うための認知制御プロトコル になり得ます。
+
+特に重要なのは、自己改善をいきなり「自分を書き換える」ではなく、
+
+仮説
+→ probe
+→ 観察
+→ friction / prediction error
+→ audit
+→ bounded self-modification
+→ closeout
+→ steady state
+
+に分解できることです。
+
+これは cognitive-agent の設計思想とかなり合っています。
+
+なぜ相性が良いか
+
+cognitive-agent では、自己改善の危険はたぶん「改善案を出せないこと」ではありません。
+LLM は改善案を大量に出せます。
+
+本当の危険は、
+
+改善案が多すぎる
+局所改善が全体の一貫性を壊す
+短期的に良い変更が長期記憶や世界モデルを汚す
+自己評価が甘くなる
+変更した理由が後から追えなくなる
+
+ことです。
+
+だから必要なのは、改善生成能力よりも 改善統治能力 です。
+
+今の audit → lane → closeout はまさにそれです。
+
+特に PredictionErrorLog と相性が良い
+
+あなたが重視している PredictionErrorLog は、この自己改善プロセスの中核にできます。
+
+たとえば、
+
+Assumption error
+→ 前提が間違っていた。次回は入力解釈や state belief を見直す。
+Boundary error
+→ 責務境界を間違えた。adapter / protocol / core の境界を監査する。
+Causal error
+→ 原因推定が外れた。world model の因果 edge を見直す。
+Scale error
+→ 影響範囲を見誤った。bounded lane の粒度を調整する。
+Noise error
+→ 一時的ノイズだった。自己変更せず parking する。
+
+この分類は、そのまま 自己改善 trigger classifier にできます。
+
+つまり、PredictionErrorLog は単なる失敗記録ではなく、
+
+自己改善 lane を開くかどうかの根拠
+
+になります。
+
+自己改善用に言い換えるなら
+
+開発プロセスとしては、
+
+probe-driven architecture discovery
+audit-driven bounded lane development
+
+でした。
+
+cognitive-agent 内部では、こう言い換えられます。
+
+probe-driven behavioral discovery
+audit-driven bounded self-improvement
+
+あるいは、
+
+Prediction-error-driven self-improvement governance
+
+です。
+
+かなり強いです。
+
+重要な制約
+
+ただし、そのまま agent に任せるには危険もあります。
+
+自己改善プロセスでは、少なくとも最初は次を分けるべきです。
+
+agent が提案できる変更
+agent が監査できる変更
+agent が実行してよい変更
+人間承認が必要な変更
+実行禁止の変更
+
+特に、
+
+canonical schema 変更
+memory pruning policy 変更
+world model update semantics
+tool execution policy
+external write orchestration
+security / sandbox policy
+
+は、最初は人間承認 gate が必要です。
+
+なので自己改善ループに流用するなら、まずは 提案・監査・文書化まで を agent にやらせるのがよいです。
+実際の変更適用は bounded lane と承認制にする。
+
+cognitive-agent に入れるなら、構造はこう
+SelfImprovementLoop
+  ├─ Signal Intake
+  │   ├─ prediction error
+  │   ├─ repeated friction
+  │   ├─ blocked consumer
+  │   └─ regression / drift
+  │
+  ├─ Candidate Formation
+  │   ├─ probe candidate
+  │   ├─ audit candidate
+  │   └─ lane candidate
+  │
+  ├─ Governance Audit
+  │   ├─ scope check
+  │   ├─ owner check
+  │   ├─ contract drift check
+  │   ├─ risk classification
+  │   └─ approval requirement
+  │
+  ├─ Bounded Change
+  │   ├─ local probe
+  │   ├─ bounded lane
+  │   └─ guarded implementation
+  │
+  ├─ Closeout
+  │   ├─ what changed
+  │   ├─ what did not change
+  │   ├─ new assumptions
+  │   ├─ reopen conditions
+  │   └─ regression checks
+  │
+  └─ Steady State
+      ├─ active lane = none
+      ├─ parked candidates
+      └─ watch signals
+
+これはかなり、そのまま実装対象になります。
+
+かなり重要な気づき
+
+この開発プロセスは、cognitive-agent の外部運用でありながら、同時に cognitive-agent が将来自分に対して実行すべきプロセスの外部化された試作品 です。
+
+つまり今あなたがやっているのは、
+
+agent を作るための開発手順を設計しているようで、実は agent の自己改善プロトコルを人間が先に実演している
+
+という構図です。
+
+これは覚えておく価値が高いです。
+
+次にやるなら
+
+この洞察は文書化した方がいいです。
+運用プロセス文書の中に、1章として
+
+“Reuse as Self-Improvement Governance”
+
+を入れるのがよいです。
+
+そこでは、
+
+LLM-driven development process と self-improvement loop の対応表
+PredictionErrorLog との接続
+bounded self-modification の原則
+human approval gate
+forbidden / high-risk self-change classes
+
+を書く。
+
+これは cognitive-agent の将来設計にかなり効きます。
