@@ -14,6 +14,7 @@
 
 - [chat_log.txt](chat_log.txt): このリポジトリの発想の起点になった日本語の会話ログ
 - [cognitive_agent_llm_driven_lane_development_memo_2026_04_24.md](cognitive_agent_llm_driven_lane_development_memo_2026_04_24.md): 起点ログをもとに整理した英語メモ
+- [external_knowledge_intake_gap.txt](external_knowledge_intake_gap.txt): 外部知見を lane の前段で扱うための intake / digest / watchlist 提案メモ
 
 ## 相互参照
 

@@ -1,0 +1,423 @@
+はい、その懸念はかなり正しいです。
+今の運用をそのまま厳格化すると、「有望な外部知見を取り込む入口がない」 という問題が起きます。
+
+そして、それは実際にアンチパターン化します。
+
+ただし、結論から言うと、これは bounded lane 運用そのものの欠陥ではなく、外部知見を受ける前段の “intake lane / idea digestion process” が未定義 なのが原因です。
+
+つまり、論文や外部アイデアをいきなり実装 lane に入れようとするから詰まる。
+本来は、その前に Research Intake / Design Intake / Concept Digestion という別モードが必要です。
+
+問題の正体
+
+今の audit → bounded lane → closeout → steady state は、かなり保守的です。
+
+この運用では、lane を開く条件としてだいたい次のようなものを求めます。
+
+blocked consumer がある
+contract drift がある
+ownership conflict がある
+duplicate semantics がある
+current repo に concrete pressure がある
+
+これは中盤以降の repo 保護にはとても有効です。
+
+でも、論文由来の新概念は、多くの場合まだこういう形をしていません。
+
+まだ blocked consumer はない
+まだ duplicate logic もない
+まだ contract drift もない
+まだ live code に圧力は出ていない
+でも設計上は重要そう
+
+なので、現在のルールだけだと、
+
+「将来必要そう、だけ」なので開かない
+
+に分類されやすいです。
+
+これは安全ですが、探索能力を失います。
+
+アンチパターン名をつけるなら
+
+これはかなり明確にアンチパターンです。
+
+名前をつけるなら、たとえば：
+
+Triggered-Only Development Trap
+
+または日本語なら、
+
+発火条件依存の硬直化
+
+です。
+
+意味は、
+
+既存 repo 内に concrete trigger が出るまで何も取り込まないため、外部から来た高価値な概念・研究・設計知見を消化できなくなる状態。
+
+です。
+
+別名としては、
+
+No Intake Path Anti-Pattern
+Evidence Gate Overfitting
+Research Starvation
+Premature Parking
+Blocked-Consumer Bias
+
+あたりもあり得ます。
+
+特に Blocked-Consumer Bias はかなり本質を突いています。
+「今困っている consumer があるか」を強く見すぎると、未来の設計能力を高める知見 が入らなくなる。
+
+必要なのは “入口” の追加
+
+なので、この運用サイクルには、少なくとも次の入口を追加するべきです。
+
+External idea / paper / post
+  ↓
+Research Intake
+  ↓
+Relevance Mapping
+  ↓
+Concept Digest
+  ↓
+Candidate Classification
+  ↓
+probe / watch / park / audit / lane
+
+重要なのは、外部知見をいきなり bounded lane にしないことです。
+
+まずは 取り込み用の軽量プロセス を通す。
+
+外部知見の分類
+
+論文や記事を読んで「これは取り入れるべきだ」と思ったとき、即実装ではなく、まず分類します。
+
+1. Concept Seed
+
+まだ repo に具体圧力はないが、将来重要そうな概念。
+
+例：
+
+Graph World Model に Gaussian regularity
+prediction-error-driven learning
+tool-use reasoning policy
+memory retrieval strategy
+
+扱い：
+
+concept digest に保存
+まだ lane は開かない
+後で trigger が出たときに参照する
+2. Probe Candidate
+
+小さい実験で価値を確認できるもの。
+
+例：
+
+新しい retrieval scoring
+prediction error type の分類器
+control mode transition heuristic
+compression / pruning strategy の toy test
+
+扱い：
+
+bounded lane ではなく probe として開く
+成功条件は「学習」
+canonical 化しない
+3. Design Constraint
+
+今すぐ実装しないが、今後の設計判断を制約する知見。
+
+例：
+
+「memory を与えすぎると context pollution が起きる」
+「V-only compression は安全でも K compression は危険」
+「agent skill は短い方がよい」
+「world model は test-time imagination より policy-centric に寄せるべき」
+
+扱い：
+
+design principles / constraints に入れる
+lane ではなく decision rule に影響させる
+4. Audit Trigger
+
+外部知見によって、既存設計の危険が見えたもの。
+
+例：
+
+論文を読んで、今の memory 更新方式に drift risk があると分かった
+既存 world model interface が将来の calibration に耐えないと分かった
+control loop が tool-use failure を表現できないと分かった
+
+扱い：
+
+audit を開く
+ただし実装 lane ではない
+既存 repo に対する影響を確認する
+5. Lane Candidate
+
+外部知見が、すでに repo 内の blocked consumer / drift / duplication と接続できるもの。
+
+扱い：
+
+bounded lane の候補にできる
+kickoff 文書を書く
+closeout 条件を定義する
+新しいサイクルにするとこう
+
+既存の中盤サイクルはこうでした。
+
+audit
+→ bounded lane
+→ closeout
+→ steady state
+
+これに、外部知見 intake を足すとこうなります。
+
+external signal
+→ intake
+→ digest
+→ classify
+→ probe / watch / audit / lane / park
+→ closeout or learning log
+→ steady state
+
+つまり、すべてを lane に入れる必要はない。
+
+外部知見の多くは、
+
+digest
+watch
+probe
+design constraint
+
+で止めるのが正しいです。
+
+“取り入れるべきだ！” の正しい受け皿
+
+あなたが論文を読んで、
+
+これは設計に取り入れるべきだ！
+
+となったとき、今の運用では確かに入口がありません。
+
+なので、今後はこの反応を直接 lane に変換せず、まずこう処理するとよいです。
+
+これは設計に取り入れるべきだ！
+  ↓
+Research Intake Note を作る
+  ↓
+どの設計面に関係するか mapping
+  ↓
+分類する:
+    - Concept Seed
+    - Probe Candidate
+    - Design Constraint
+    - Audit Trigger
+    - Lane Candidate
+  ↓
+今すぐ実装するかではなく、どの棚に置くか決める
+
+ここで大事なのは、取り入れる = 実装する ではないことです。
+
+取り入れるには段階があります。
+
+取り入れレベル	意味
+L0: Mentioned	読んだだけ
+L1: Digested	要点と relevance を保存
+L2: Mapped	既存設計のどこに関係するか対応づけ
+L3: Constrained	今後の設計判断に影響する原則化
+L4: Probed	小実験で検証
+L5: Audited	既存設計への影響を監査
+L6: Promoted	bounded lane で正式に昇格
+L7: Canonical	closeout 済みで標準化
+
+この段階を入れれば、「入り口がない」問題はかなり解消します。
+
+既存運用への修正案
+
+llm_driven_development_cycle には、次の章を追加した方がいいです。
+
+1. research_intake.md
+
+外部知見の受け入れプロセス。
+
+内容：
+
+論文・記事・post をどう扱うか
+いきなり lane にしない
+digest / mapping / classification を通す
+実装しない取り込みも正当な成果とする
+2. concept_digest_template.md
+
+論文や外部知見を要約するテンプレート。
+
+# Concept Digest: <title>
+
+## Source
+
+## Core claim
+
+## Why it matters
+
+## Possible relevance
+
+## Affected areas
+
+- cognitive model:
+- world model:
+- memory:
+- shell / flow-control:
+- tool execution:
+- observability:
+
+## Classification
+
+- Concept Seed / Probe Candidate / Design Constraint / Audit Trigger / Lane Candidate
+
+## Immediate action
+
+- digest only / watch / probe / audit / lane / park
+
+## Non-action decision
+
+What should not be done yet?
+
+## Revisit trigger
+
+When should this be reconsidered?
+3. research_to_lane_decision_rules.md
+
+研究知見を lane にする条件。
+
+例：
+
+lane にしてよい条件：
+
+既存 repo の blocked consumer と接続できる
+既存設計の contract drift risk を具体化する
+小さい probe で検証可能
+closeout 条件が定義できる
+影響範囲が bounded
+
+lane にしてはいけない条件：
+
+面白いだけ
+将来必要そうなだけ
+実装対象が大きすぎる
+既存構造との接続が曖昧
+成功条件が「賢くなる」だけ
+4. watchlist.md
+
+今は実装しないが、重要な概念を置く場所。
+
+これがかなり重要です。
+今の運用では park があるものの、外部知見の “熟成棚” が弱い。
+
+watchlist.md があると、
+
+まだ lane ではない
+でも忘れてはいけない
+どの trigger が出たら再考するか
+
+を記録できます。
+
+これを入れると運用全体はこうなる
+
+改善後の全体像はこうです。
+
+                   ┌──────────────────────┐
+                   │ External Research     │
+                   │ paper / post / repo   │
+                   └──────────┬───────────┘
+                              ↓
+                    Research Intake
+                              ↓
+                    Concept Digest
+                              ↓
+                  Relevance Mapping
+                              ↓
+                    Classification
+      ┌──────────────┬────────────┬───────────────┬────────────┐
+      ↓              ↓            ↓               ↓            ↓
+  watchlist        probe       design rule       audit       lane
+      ↓              ↓            ↓               ↓            ↓
+  revisit       learning log   constraints     outcome      closeout
+      └──────────────┴────────────┴───────────────┴────────────┘
+                              ↓
+                         steady state
+
+これなら、論文解説から来た知見も自然に入ります。
+
+かなり重要な設計原則
+
+追加すべき原則はこれです。
+
+External ideas do not require immediate implementation to be integrated.
+
+日本語なら、
+
+外部知見の取り込みは、即時実装を意味しない。
+
+これは本当に重要です。
+
+取り込みとは、
+
+digest する
+relevance を mapping する
+design constraint にする
+watchlist に置く
+probe candidate にする
+audit trigger にする
+
+ことも含みます。
+
+この概念がないと、外部知見は全部
+
+実装する
+捨てる
+
+の二択になってしまう。
+
+それが一番危険です。
+
+cognitive-agent への自己改善応用とも一致する
+
+これは自己改善プロセスにもそのまま効きます。
+
+agent が外部情報や失敗から新しい改善案を見つけたとき、
+
+すぐ自己変更しない
+digest する
+risk を分類する
+probe する
+audit する
+bounded self-modification に昇格する
+
+という流れにできます。
+
+つまり research_intake は、単なる開発プロセスではなく、将来の cognitive-agent における novelty intake / improvement intake の原型になります。
+
+結論
+
+はい。現状の運用だけだと、論文由来の「これは取り入れるべきだ！」は入口がなく、アンチパターン化します。
+
+ただし解決策は明確です。
+
+既存の audit/lane サイクルの前に、Research Intake / Concept Digest / Watchlist / Probe Candidate という入口を追加する。
+
+これで、
+
+実装するには早い
+でも重要
+忘れてはいけない
+将来の設計制約になる
+小さく検証したい
+
+という知見を安全に扱えます。
+
+この追加はかなり重要なので、llm_driven_development_cycle repo に入れる価値があります。
+おそらく次に作るべき文書は、research_intake.md です。
