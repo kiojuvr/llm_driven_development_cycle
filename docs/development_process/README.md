@@ -23,16 +23,18 @@
 まず次の順で読むことを想定します。
 
 1. `llm_driven_development_cycle.md`
-2. `phase_switching_guide.md`
-3. `terminology.md`
-4. `decision_rules.md`
-5. `worker_handoff_protocol.md`
+2. `research_intake.md`
+3. `phase_switching_guide.md`
+4. `terminology.md`
+5. `decision_rules.md`
+6. `worker_handoff_protocol.md`
 
 実務では、必要なテンプレートを `templates/` から選んで使います。
 
 ## 文書一覧
 
 - `llm_driven_development_cycle.md`: 全体サイクルの定義
+- `research_intake.md`: 外部知見を lane の前段で扱う intake ルール
 - `phase_switching_guide.md`: 序盤・中盤・終盤の切り替え基準
 - `terminology.md`: 重要語彙の定義
 - `decision_rules.md`: lane を開く / 開かない判断ルール
@@ -52,6 +54,8 @@
 - `templates/bounded_lane_kickoff_template.md` -> `examples/example_runtime_workflow_boundary/bounded_lane_kickoff_example.md`
 - `templates/closeout_template.md` -> `examples/example_runtime_workflow_boundary/closeout_example.md`
 - `templates/parking_statement_template.md` -> `examples/example_runtime_workflow_boundary/parking_statement_example.md`
+- `templates/concept_digest_template.md` -> `examples/example_research_intake/concept_digest_example.md`
+- `templates/watchlist_template.md` -> `examples/example_research_intake/watchlist_example.md`
 
 ## 参照資料との関係
 

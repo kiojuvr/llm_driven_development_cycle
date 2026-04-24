@@ -10,6 +10,7 @@
 - duplicated semantics が複数箇所にある
 - improper regression がある
 - correctness または explainability への影響がある
+- 外部知見が既存 repo の blocked consumer、drift、ownership conflict に接続できる
 
 ## lane を開かない条件
 
@@ -20,6 +21,8 @@
 - LLM が広い再設計を提案した
 - docs 上の違和感はあるが live path の圧力がない
 - 局所パッチで正直に閉じられる
+- 面白い研究だが current repo への接続が曖昧
+- 成功条件が「賢くなりそう」しかない
 
 ## audit の allowed outcomes
 
@@ -33,4 +36,5 @@
 - ownership が変わるなら、lane を開く
 - reusable contract を追加するなら、lane を開く
 - blocked consumer がないなら、parking を優先する
+- 外部知見は、digest / watch / probe / audit を経てから lane に昇格させる
 - audit の negative result も進捗として扱う

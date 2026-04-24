@@ -4,6 +4,8 @@
 
 この文書は、いま必要なのが probe なのか、audit なのか、bounded lane なのかを判定する基準をまとめたものです。
 
+外部の論文、記事、会話、他 repo 由来の概念を扱う場合は、まず `research_intake.md` を通し、そこから `probe`、`audit`、`bounded lane` に接続するかを決めます。
+
 ## 序盤
 
 序盤は、構造理解と live path の把握を優先します。
@@ -71,6 +73,10 @@
 ### 具体的な blocked consumer があるか
 
 あるなら `audit` または `bounded lane` を検討します。
+
+### 外部知見を直接実装したくなっていないか
+
+なっているなら、まず `research intake` で digest、分類、再考 trigger を書きます。
 
 ### 問題は reusable な意味や ownership に触れているか
 
