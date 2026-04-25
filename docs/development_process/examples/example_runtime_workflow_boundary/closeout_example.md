@@ -45,12 +45,23 @@ post-turn outcome の意味論は runtime が持つ。app はその contract を
 - turn loop の live path で contract 経由の next action selection を確認
 - trace review で stop / continue reason が対称に読めることを確認
 - docs と code comments の ownership 記述を一致させた
+- tests と trace 出力の双方で observability surface を確認した
+- docs / code / tests / observability の claim が揃っていることを確認した
 
 ## Reopen conditions
 
 - 新しい workflow が current outcome family では表現できない理由を要求した場合
 - app が再び独自の next action semantics を持ち始めた場合
 
+## Post-closeout watch
+
+不要。今回の lane は focused contract 導入であり、追加の watch を要する未固定な drift 面を残していない。
+
 ## Resulting steady state
 
 current repository では post-turn outcome ownership に関する active lane は存在しない。次に動くのは、新しい blocked consumer が現れた場合のみ。
+
+## Lane posture
+
+- current bounded lane: `unselected`
+- next bounded lane: `unselected`

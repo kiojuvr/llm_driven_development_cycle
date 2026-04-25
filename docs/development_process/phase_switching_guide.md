@@ -43,6 +43,7 @@
 - 同じ摩擦が複数回観察されている
 - blocked consumer が具体化している
 - docs / code / tests の contract drift が見えている
+- observability / trace / health signal の drift が live path 説明を壊している
 - ownership conflict が live path で確認できる
 
 ## 終盤
@@ -61,6 +62,19 @@
 - 変更範囲が lane の境界を超えていないか
 - ownership が明文化されているか
 - deferred 項目が future work ではなく parking として扱われているか
+- no-code closeout でも reopen condition と current posture が書かれているか
+- post-closeout watch が必要なら、lane 継続ではなく補助観測として分離されているか
+
+## steady state からの再開
+
+steady state に戻ったあと、次の lane は自動では選ばれません。
+
+再開前に少なくとも次を確認します。
+
+- `current bounded lane = unselected` を正直に言えるか
+- 前回 closeout の claim がまだ有効か
+- 新しい trigger は historical momentum ではなく current repository pressure に基づくか
+- 開くとしても broad phase ではなく first bounded slice に落ちているか
 
 ## 簡易判定
 
@@ -74,6 +88,10 @@
 
 あるなら `audit` または `bounded lane` を検討します。
 
+### その pressure は docs / code / tests / observability のどこに出ているか
+
+場所を分けて言えないなら、まだ `probe` または `audit` の材料整理が足りません。
+
 ### 外部知見を直接実装したくなっていないか
 
 なっているなら、まず `research intake` で digest、分類、再考 trigger を書きます。
@@ -85,3 +103,7 @@
 ### 単なる局所修正で正直に閉じられるか
 
 閉じられるなら lane を開かずに対応します。
+
+### 前回 closeout 済みの領域を、勢いだけで再開しようとしていないか
+
+そうなら、lane ではなく steady state を維持します。再開には fresh trigger が必要です。

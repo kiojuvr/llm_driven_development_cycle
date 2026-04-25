@@ -20,6 +20,13 @@ Yes / No または allowed outcome を選べる問いにする。
 
 少なくとも 1 つは実コードの流れを書く。
 
+## Surfaces to check
+
+- docs:
+- code:
+- tests:
+- observability:
+
 ## Core checks
 
 ## Evidence entries
@@ -38,6 +45,15 @@ Yes / No または allowed outcome を選べる問いにする。
 
 ## Completion criteria
 
+- `no new lane justified` の場合でも steady-state posture を書ける
+- lane を開く場合は first bounded slice の entry question を 1 つに絞れる
+
 ## Final rule
 
 最後に選んだ outcome と、その根拠を 1-3 行で書く。
+
+## Resulting posture
+
+- current bounded lane:
+- next bounded lane:
+- watch needed?:

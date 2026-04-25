@@ -25,6 +25,13 @@
 
 実際に確認した call chain や workflow を書く。
 
+## Validation basis
+
+- tests / build commands:
+- diagnostics / self-check commands:
+- observability strings / metrics:
+- config surface checked:
+
 ## Concrete consumer
 
 ## Why local patch is insufficient

@@ -27,6 +27,18 @@ post-turn control outcome ownership
 - turn completion -> post-turn handler -> next action selection
 - execution result -> trace assembly -> reviewer-facing trace
 
+## Validation basis
+
+- tests / build commands:
+  - `cargo test -p app --lib execution::tests::...`
+  - `cargo test -p app --lib`
+- diagnostics / self-check commands:
+  - `cargo run -p app -- self-check audit list`
+- observability strings / metrics:
+  - trace 上で stop / continue reason が同粒度で出るか
+- config surface checked:
+  - current runtime config では post-turn outcome の owner が外から切り替わらないこと
+
 ## Concrete consumer
 
 - trace review workflow
